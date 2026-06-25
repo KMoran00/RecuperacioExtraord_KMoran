@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de gestión del timbre escolar - Schedule</title>
+
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/style.css">
+
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/schedule.js" ></script>
+</head>
+
+<body class="bg-light">
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">🔔 SchoolBell System</span>
+
+            <button class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#modalCalendario">
+                + Añadir calendario
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- CONTENIDO -->
+    <div class="container">
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">Programar Timbre (Time)</div>
+            <div class="card-body">
+                <form id="timeForm" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Nombre Momento</label>
+                        <input type="text" id="timeName" class="form-control" placeholder="Ej: Patio" minlength="2" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Hora</label>
+                        <input type="time" id="timeHour" class="form-control" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Segs</label>
+                        <input type="number" id="timeDuration" class="form-control" min="1" required>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Canción</label>
+                        <select id="timeSongSelect" class="form-select" required>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" id="btnGuardarTime" class="btn btn-success">Asignar a Horario Actual</button>
+                    </div>
+                    <div class="col-12" id="errorMensaje" class="text-danger"></div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="card-body p-0">
+
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>id</th>
+                        <th>Nombre Momento</th>
+                        <th>Hora</th>
+                        <th>Segs</th>
+                        <th>Canción</th>
+                        <th width="180">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody id="hourTable">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- MODAL PLAYLIST -->
+    <div class="modal fade" id="modalCalendario" tabindex="-1" aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-secondary text-white">
+
+                    <h5 class="modal-title">
+                        Calendari
+                    </h5>
+
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Nombre del calendario
+                            </label>
+                            <input type="hidden" id="scheduleId">
+                            <input type="text" class="form-control" id="nameSchedule"
+                                placeholder="Ej: Horario Estandard">
+                        </div>
+
+                        <button type="submit" id="btnAddSchedule" class="btn btn-primary w-100" id="scheduleSaveBtn">
+                            Guardar calendario
+                        </button>
+
+                        <p id="missatgeError" class="text-danger"></p>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+</html>
