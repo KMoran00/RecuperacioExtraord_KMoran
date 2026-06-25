@@ -248,62 +248,86 @@ function cargarSelect() {
 
 // ════════════════════════════════════════════════════════════════════
 //  SECCIÓN 7 – CRUD
+//
+//  CÓMO SABER QUÉ ESCRIBIR EN agregar / cargarFormulario / actualizar
+//  ─────────────────────────────────────────────────────────────────
+//  Tienes tres fuentes que debes conectar:
+//
+//  [A] El JSON  → te dice qué PROPIEDADES tiene cada objeto
+//  [B] El HTML  → te dice qué ID tienen los <input> y <select>
+//  [C] El tipo  → texto = .value.trim()  |  número/FK = Number(.value)
+//
+//  Ejemplo con SchoolBell:
+//
+//  [A] JSON (un time):         [B] HTML (inputs del form):       [C] tipo
+//  ┌─────────────────┐         ┌──────────────────────────┐
+//  │ "name": "Patio" │ ──────► │ <input id="timeName">    │  → .value.trim()
+//  │ "hour": "11:00" │ ──────► │ <input id="timeHour">    │  → .value
+//  │ "duration": 30  │ ──────► │ <input id="timeDuration">│  → Number(.value)
+//  │ "songId": 2     │ ──────► │ <select id="timeSong.."> │  → Number(.value)  (FK)
+//  └─────────────────┘         └──────────────────────────┘
+//
+//  PASOS PARA ADAPTAR AL EXAMEN:
+//  1. Abre el JSON → anota las propiedades de un objeto (excepto "id")
+//  2. Abre el HTML → anota el id de cada <input>/<select> del formulario
+//  3. En agregar():         propiedad: document.getElementById('id').value
+//  4. En cargarFormulario(): document.getElementById('id').value = item.propiedad
+//  5. En actualizar():      item.propiedad = document.getElementById('id').value
+//  Las tres funciones usan las mismas propiedades e ids → cópialos igual en las tres.
 // ════════════════════════════════════════════════════════════════════
 
 // ── CREATE ───────────────────────────────────────────────────────────
 function agregar() {
     // Tres formas de generar un id único – elige una:
     // let nouId = datos[PROP_PRINCIPAL].length > 0
-    //     ? Math.max(...datos[PROP_PRINCIPAL].map(x => x.id)) + 1 : 1; // ← número correlativo
-    let nouId = new Date(Date.now()).toISOString().split('T')[0]; // ← fecha de hoy (SchoolBell)
-    // let nouId = Date.now();                                        // ← timestamp
+    //     ? Math.max(...datos[PROP_PRINCIPAL].map(x => x.id)) + 1 : 1; // número correlativo
+    let nouId = new Date(Date.now()).toISOString().split('T')[0]; // fecha de hoy (SchoolBell)
+    // let nouId = Date.now();                                        // timestamp
 
+    // Izquierda del ':' = propiedad del JSON  [A]
+    // Dentro del getElementById = id del input en el HTML  [B]
+    // .trim() para texto, Number() para números y FKs  [C]
     let nou = {
-        id:   nouId,
-        // ← CANVIA: copia aquí los campos del JSON y léelos del formulario
-        name:     document.getElementById('inputName').value.trim(),     // ← CANVIA id i prop
-        hour:     document.getElementById('inputHour').value,            // ← CANVIA id i prop
-        duration: Number(document.getElementById('inputDuration').value),// ← CANVIA id i prop
-        songId:   Number(document.getElementById('miSelect').value)      // ← CANVIA id i prop (FK)
+        id:       nouId,
+        name:     document.getElementById('inputName').value.trim(),      // ← CANVIA [A] i [B]
+        hour:     document.getElementById('inputHour').value,             // ← CANVIA [A] i [B]
+        duration: Number(document.getElementById('inputDuration').value), // ← CANVIA [A] i [B]
+        songId:   Number(document.getElementById('miSelect').value)       // ← CANVIA [A] i [B] (FK)
     };
 
-    // ← CANVIA: apunta al array correcto
-    datos[PROP_PRINCIPAL].push(nou);   // Caso B
-    // datos.push(nou);                // Caso A
-
+    datos[PROP_PRINCIPAL].push(nou); // Caso B  |  datos.push(nou) si Caso A
     guardarStorage();
 }
 
 // ── CARGAR EN EL FORMULARIO (modo edición) ───────────────────────────
+// Mismas propiedades e ids que en agregar(), pero al revés:
+// item.propiedad [A]  →  input del HTML [B]
 function cargarFormulario(id) {
-    // ← CANVIA: busca en el array correcto
-    let item = datos[PROP_PRINCIPAL].find(x => x.id == id);   // Caso B
-    // let item = datos.find(x => x.id == id);                // Caso A
+    let item = datos[PROP_PRINCIPAL].find(x => x.id == id); // Caso B
+    // let item = datos.find(x => x.id == id);              // Caso A
     if (!item) return;
 
-    // ← CANVIA: un getElementById por cada input del formulario
-    document.getElementById('inputName').value     = item.name;
-    document.getElementById('inputHour').value     = item.hour;
-    document.getElementById('inputDuration').value = item.duration;
-    document.getElementById('miSelect').value      = item.songId;
+    document.getElementById('inputName').value     = item.name;     // ← CANVIA [B] i [A]
+    document.getElementById('inputHour').value     = item.hour;     // ← CANVIA [B] i [A]
+    document.getElementById('inputDuration').value = item.duration; // ← CANVIA [B] i [A]
+    document.getElementById('miSelect').value      = item.songId;   // ← CANVIA [B] i [A] (FK)
 
-    // Guarda el id en el dataset del formulario para recuperarlo al actualizar
-    document.getElementById('miFormulario').dataset.editando = id;
+    document.getElementById('miFormulario').dataset.editando = id;  // ← CANVIA id formulario
     editando = true;
 }
 
 // ── UPDATE ───────────────────────────────────────────────────────────
+// Mismas propiedades e ids que en agregar(), sobreescribiendo el objeto existente
 function actualizar() {
-    let id = document.getElementById('miFormulario').dataset.editando;
-
-    // ← CANVIA igual que en cargarFormulario
-    let item = datos[PROP_PRINCIPAL].find(x => x.id == id);
+    let id   = document.getElementById('miFormulario').dataset.editando; // ← CANVIA id formulario
+    let item = datos[PROP_PRINCIPAL].find(x => x.id == id); // Caso B
+    // let item = datos.find(x => x.id == id);              // Caso A
     if (!item) return;
 
-    item.name     = document.getElementById('inputName').value.trim();
-    item.hour     = document.getElementById('inputHour').value;
-    item.duration = Number(document.getElementById('inputDuration').value);
-    item.songId   = Number(document.getElementById('miSelect').value);
+    item.name     = document.getElementById('inputName').value.trim();      // ← CANVIA [A] i [B]
+    item.hour     = document.getElementById('inputHour').value;             // ← CANVIA [A] i [B]
+    item.duration = Number(document.getElementById('inputDuration').value); // ← CANVIA [A] i [B]
+    item.songId   = Number(document.getElementById('miSelect').value);      // ← CANVIA [A] i [B]
 
     guardarStorage();
 }
@@ -312,9 +336,8 @@ function actualizar() {
 function borrar(id) {
     if (!confirm('Confirma si vols eliminar')) return;
 
-    // ← CANVIA: apunta al array correcto
-    let idx = datos[PROP_PRINCIPAL].findIndex(x => x.id == id);   // Caso B
-    // let idx = datos.findIndex(x => x.id == id);                // Caso A
+    let idx = datos[PROP_PRINCIPAL].findIndex(x => x.id == id); // Caso B
+    // let idx = datos.findIndex(x => x.id == id);              // Caso A
     if (idx === -1) return;
 
     datos[PROP_PRINCIPAL].splice(idx, 1);
@@ -324,7 +347,7 @@ function borrar(id) {
 
 function cancelarEdicion() {
     editando = false;
-    document.getElementById('miFormulario').reset(); // ← CANVIA el id
+    document.getElementById('miFormulario').reset(); // ← CANVIA el id del formulario
     limpiarErrores();
 }
 
