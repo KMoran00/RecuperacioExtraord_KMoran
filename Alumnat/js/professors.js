@@ -118,14 +118,14 @@ function pintarTabla() {
         let btnEditar = document.createElement('button');
         btnEditar.type = 'button';
         btnEditar.textContent = 'Editar';
-        btnEditar.classList.add('btn', 'btn-primary', 'me-1');
+        btnEditar.classList.add('btn', 'btn-warning', 'btn-sm', 'me-2');
         btnEditar.addEventListener('click', function () { cargarFormulario(item.id); });
         tdAccions.appendChild(btnEditar);
 
         let btnBorrar = document.createElement('button');
         btnBorrar.type = 'button';
         btnBorrar.textContent = 'Borrar';
-        btnBorrar.classList.add('btn', 'btn-danger');
+        btnBorrar.classList.add('btn', 'btn-danger', 'btn-sm');
         btnBorrar.addEventListener('click', function () { borrar(item.id); });
         tdAccions.appendChild(btnBorrar);
 
