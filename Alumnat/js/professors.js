@@ -87,10 +87,6 @@ function pintarTabla() {
     array.forEach(function (item) {
         let tr = document.createElement('tr');
 
-        // Celda id
-        let tdId = document.createElement('td');
-        tdId.textContent = item.id;
-        tr.appendChild(tdId);
 
         //muestre el HTML
         let tdNombre = document.createElement('td');
@@ -188,8 +184,7 @@ function actualizar() {
 function borrar(id) {
     if (!confirm('Confirma si vols eliminar')) return;
 
-    let idx = datos.findIndex(x => x.id == id); // Caso B
-    // let idx = datos.findIndex(x => x.id == id);              // Caso A
+    let idx = datos.findIndex(x => x.id == id);
     if (idx === -1) return;
 
     datos.splice(idx, 1);
@@ -222,7 +217,7 @@ function validar(e) {
 
 // Valida un <input type="text" required minlength="2">
 function validarName() {
-    let el = document.getElementById('inputName'); // ← CANVIA el id
+    let el = document.getElementById('p-nombre');
     if (!el.checkValidity()) {
         if (el.validity.valueMissing) mostrarError(el, 'El nom és obligatori');
         if (el.validity.tooShort) mostrarError(el, 'Mínim 2 caràcters');
@@ -233,7 +228,7 @@ function validarName() {
 }
 
 function limpiarErrores() {
-    document.getElementById('errorMensaje').textContent = ''; // ← CANVIA el id
+    //document.getElementById('errorMensaje').textContent = ''; // ← CANVIA el id
     let form = document.getElementById('form-profesor')
     for (let i = 0; i < form.elements.length; i++) {
         form.elements[i].classList.remove('text-danger');
