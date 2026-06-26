@@ -194,7 +194,7 @@ function borrar(id) {
 
 function cancelarEdicion() {
     editando = false;
-    document.getElementById('form-profesor').reset(); // ← CANVIA el id del formulario
+    document.getElementById('form-profesor').reset(); 
     limpiarErrores();
 }
 
@@ -205,22 +205,30 @@ function cancelarEdicion() {
 
 function validar(e) {
     limpiarErrores();
-    e.preventDefault(); // SIEMPRE al inicio
+    e.preventDefault(); 
 
-    // ← CANVIA: llama a las funciones de validación que necesites
-    let ok = validarNombre() && validarTelefono() && validarSelectCurs();
+    let ok = validarNombre() && validarDni() && validarTelefono() && validarSelectCurs();
 
     if (ok && confirm('Confirma si vols guardar')) {
         document.getElementById('form-profesor').requestSubmit();
     }
 }
 
-// Valida un <input type="text" required minlength="2">
 function validarNombre() {
     let el = document.getElementById('p-nombre');
     if (!el.checkValidity()) {
         if (el.validity.valueMissing) mostrarError(el, 'El nom és obligatori');
         if (el.validity.tooShort) mostrarError(el, 'Mínim 2 caràcters');
+        if (el.validity.patternMismatch) mostrarError(el, 'Format incorrecte');
+        return false;
+    }
+    return true;
+}
+
+function validarDni() {
+    let el = document.getElementById('p-dni');
+    if (!el.checkValidity()) {
+        if (el.validity.valueMissing) mostrarError(el, 'El dni és obligatori');
         if (el.validity.patternMismatch) mostrarError(el, 'Format incorrecte');
         return false;
     }
