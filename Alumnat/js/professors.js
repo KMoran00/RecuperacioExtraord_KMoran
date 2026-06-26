@@ -195,7 +195,7 @@ function borrar(id) {
 
 function cancelarEdicion() {
     editando = false;
-    document.getElementById('form-profesor').reset(); 
+    document.getElementById('form-profesor').reset();
     limpiarErrores();
 }
 
@@ -206,7 +206,7 @@ function cancelarEdicion() {
 
 function validar(e) {
     limpiarErrores();
-    e.preventDefault(); 
+    e.preventDefault();
 
     let ok = validarNombre() && validarDni() && validarTelefono() && validarSelectCurs();
 
@@ -256,7 +256,7 @@ function validarSelectCurs() {
 }
 
 function mostrarError(element, missatge) {
-    document.getElementById('miissatgeError') 
+    document.getElementById('miissatgeError')
         .appendChild(document.createTextNode(missatge));
     element.classList.add('text-danger');
     element.focus();
