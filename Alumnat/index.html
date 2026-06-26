@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserva de Salas — IES</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script defer src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+</head>
+<body>
+
+  <!-- =========================================================
+       BARRA DE NAVEGACIÓN
+  ========================================================= -->
+  <nav class="navbar navbar-expand navbar-dark bg-primary">
+    <div class="container">
+      <span class="navbar-brand fw-bold">📅 Reserva de Salas — IES</span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Reservas</a></li>
+        <li class="nav-item"><a class="nav-link" href="profesores.html">Profesores</a></li>
+        <li class="nav-item"><a class="nav-link" href="salas.html">Salas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       CONTENIDO PRINCIPAL
+  ========================================================= -->
+  <main class="container my-4">
+
+    <!-- PESTAÑAS -->
+    <ul class="nav nav-tabs mb-4" id="pestanas" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="tab-reserva-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-reserva"
+                type="button" role="tab">
+          🗓️ Nueva Reserva
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="tab-listado-btn"
+                data-bs-toggle="tab" data-bs-target="#tab-listado"
+                type="button" role="tab">
+          📋 Listado de Reservas
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="contenido-pestanas">
+
+      <!-- =====================================================
+           PESTAÑA 1 — NUEVA RESERVA (multi-paso)
+      ===================================================== -->
+      <div class="tab-pane fade show active" id="tab-reserva" role="tabpanel">
+
+        <div id="alerta-reserva" class="mb-3"></div>
+
+        <!-- PASO 1: SELECCIÓN DE SALA -->
+        <section id="paso-salas">
+          <p class="paso-titulo">
+            <span class="badge bg-primary rounded-pill me-2">1</span>
+            Selecciona una sala
+          </p>
+          <div class="row g-3" id="cards-salas">
+
+            <!-- ================================================
+                 EJEMPLO ESTÁTICO — así debe quedar cada card
+                 Tu JS debe generar una igual por cada sala del JSON
+            ================================================ -->
+            <div class="col-xl-2 col-md-3 col-sm-4 col-6">
+              <div class="sala-card" id="card-A100">
+                <span class="sala-check">✔</span>
+                <div class="sala-id">A100</div>
+                <div class="sala-nombre">Aula A100</div>
+                <hr>
+                <div class="sala-tipo">Informática</div>
+                <div class="sala-cap"><strong>30</strong> plazas</div>
+              </div>
+            </div>
+            <!-- FIN EJEMPLO — elimina este bloque cuando tu JS funcione -->
+
+          </div>
+        </section>
+
+        <!-- PASO 2: CALENDARIO (oculto hasta seleccionar sala) -->
+        <section id="paso-calendario" class="d-none mt-4">
+          <p class="paso-titulo">
+            <span class="badge bg-primary rounded-pill me-2">2</span>
+            Elige una fecha — pincha el día para ver disponibilidad
+          </p>
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <button class="btn btn-outline-secondary btn-sm px-3" id="btn-mes-anterior">&#8249;</button>
+                <span class="fw-semibold text-capitalize" id="cal-titulo"></span>
+                <button class="btn btn-outline-secondary btn-sm px-3" id="btn-mes-siguiente">&#8250;</button>
+              </div>
+
+              <div class="calendario-grid" id="calendario-grid"></div>
+
+              <div class="cal-leyenda mt-3">
+                <span><i class="cal-dot-leyenda dot-reserva"></i> Con reservas</span>
+                <span><i class="cal-dot-leyenda dot-hoy"></i> Hoy</span>
+                <span class="text-muted">· Días en gris: no disponibles</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /tab-reserva -->
+
+
+      <!-- =====================================================
+           PESTAÑA 2 — LISTADO DE RESERVAS
+      ===================================================== -->
+      <div class="tab-pane fade" id="tab-listado" role="tabpanel">
+
+        <!-- Filtros -->
+        <div class="card shadow-sm mb-3">
+          <div class="card-body">
+            <div class="row g-3 align-items-end">
+              <div class="col-md-4">
+                <label for="filtro-sala" class="form-label">Filtrar por sala</label>
+                <select class="form-select" id="filtro-sala">
+                  <option value="">Todas las salas</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="filtro-fecha" class="form-label">Filtrar por fecha</label>
+                <input type="date" class="form-control" id="filtro-fecha" />
+              </div>
+              <div class="col-md-4 d-flex gap-2">
+                <button class="btn btn-primary w-100" id="btn-filtrar">Filtrar</button>
+                <button class="btn btn-outline-secondary w-100" id="btn-limpiar-filtros">Limpiar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla -->
+        <div class="card shadow-sm">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Profesor</th>
+                    <th>DNI</th>
+                    <th>Curso</th>
+                    <th>Sala</th>
+                    <th>Fecha</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-reservas">
+
+                  <!-- ================================================
+                       EJEMPLO ESTÁTICO — así debe quedar cada fila
+                       Tu JS debe generar una igual por cada reserva del JSON
+                  ================================================ -->
+                  <tr>
+                    <td>María López Fernández</td>
+                    <td>12345678A</td>
+                    <td>1º DAW</td>
+                    <td><span class="badge bg-secondary">A100</span></td>
+                    <td>2026-06-22</td>
+                    <td>09:00</td>
+                    <td>11:00</td>
+                    <td>
+                      <button class="btn btn-danger btn-eliminar">Eliminar</button>
+                    </td>
+                  </tr>
+                  <!-- FIN EJEMPLO — elimina esta fila cuando tu JS funcione -->
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="alerta-listado" class="mt-3"></div>
+
+      </div><!-- /tab-listado -->
+
+    </div><!-- /tab-content -->
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+  <footer class="bg-light border-top text-center text-muted py-3 mt-5">
+    <small>Sistema de Reserva de Salas &copy; 2026 — IES</small>
+  </footer>
+
+  <!-- =========================================================
+       MODAL — SELECCIÓN DE HORAS Y PROFESOR
+  ========================================================= -->
+  <div class="modal fade" id="modal-horas" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="modal-titulo">Reserva</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <div id="alerta-modal"></div>
+
+          <p class="text-muted small mb-3">
+            Pincha en las horas <span class="text-success fw-semibold">libres</span>
+            para seleccionarlas.
+            Las horas <span class="text-danger fw-semibold">ocupadas</span> no están disponibles.
+          </p>
+
+          <!-- ================================================
+               EJEMPLO ESTÁTICO — 19 de junio, sala A100
+               Slots 09:00 y 10:00 ocupados (reserva existente).
+               Tu JS debe generar una estructura igual para la fecha y sala elegidas.
+          ================================================ -->
+          <div class="grid-horas" id="grid-horas">
+
+            <button class="slot-hora libre" data-hora="08:00">
+              <span class="slot-time">08:00 – 09:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora ocupado" data-hora="09:00" disabled>
+              <span class="slot-time">09:00 – 10:00</span>
+              <span class="slot-estado">Ocupada</span>
+            </button>
+
+            <button class="slot-hora ocupado" data-hora="10:00" disabled>
+              <span class="slot-time">10:00 – 11:00</span>
+              <span class="slot-estado">Ocupada</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="11:00">
+              <span class="slot-time">11:00 – 12:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="12:00">
+              <span class="slot-time">12:00 – 13:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="13:00">
+              <span class="slot-time">13:00 – 14:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="14:00">
+              <span class="slot-time">14:00 – 15:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="15:00">
+              <span class="slot-time">15:00 – 16:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="16:00">
+              <span class="slot-time">16:00 – 17:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="17:00">
+              <span class="slot-time">17:00 – 18:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="18:00">
+              <span class="slot-time">18:00 – 19:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="19:00">
+              <span class="slot-time">19:00 – 20:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="20:00">
+              <span class="slot-time">20:00 – 21:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+            <button class="slot-hora libre" data-hora="21:00">
+              <span class="slot-time">21:00 – 22:00</span>
+              <span class="slot-estado">Libre</span>
+            </button>
+
+          </div>
+          <!-- FIN EJEMPLO — vacía el div cuando tu JS funcione -->
+            
+          <hr class="my-4" />
+
+          <div>
+            <label for="modal-profesor" class="form-label fw-semibold">
+              👤 Profesor
+              <small class="text-muted fw-normal ms-1">(activo tras seleccionar horas)</small>
+            </label>
+            <select class="form-select" id="modal-profesor" disabled>
+              <option value="">-- Selecciona primero las horas --</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-success" id="btn-confirmar-reserva" disabled>
+            ✔ Confirmar Reserva
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /modal-horas -->
+
+</body>
+</html>

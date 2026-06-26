@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Profesores — IES</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script defer src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+</head>
+<body>
+
+  <!-- =========================================================
+       BARRA DE NAVEGACIÓN
+  ========================================================= -->
+  <nav class="navbar navbar-expand navbar-dark bg-primary">
+    <div class="container">
+      <span class="navbar-brand fw-bold">📅 Reserva de Salas — IES</span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Reservas</a></li>
+        <li class="nav-item"><a class="nav-link active" href="profesores.html">Profesores</a></li>
+        <li class="nav-item"><a class="nav-link" href="salas.html">Salas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       CONTENIDO PRINCIPAL
+  ========================================================= -->
+  <main class="container my-4">
+    <div class="row g-4">
+
+      <!-- =====================================================
+           COLUMNA IZQUIERDA — FORMULARIO ALTA / EDICIÓN
+      ===================================================== -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+
+          <div class="card-header bg-primary text-white" id="form-profesor-header">
+            <h5 class="mb-0" id="form-profesor-titulo">👤 Alta de Profesor</h5>
+          </div>
+
+          <div class="card-body">
+            <div id="alerta-profesor"></div>
+
+            <form id="form-profesor" novalidate>
+
+              <div class="mb-3">
+                <label for="p-nombre" class="form-label">Nombre completo</label>
+                <input type="text" class="form-control" id="p-nombre"
+                       placeholder="Ej: María López Fernández"/>
+              </div>
+
+              <div class="mb-3">
+                <label for="p-dni" class="form-label">DNI</label>
+                <input type="text" class="form-control text-uppercase" id="p-dni"
+                       placeholder="Ej: 12345678A"/>
+              </div>
+
+              <div class="mb-3">
+                <label for="p-telefono" class="form-label">Teléfono</label>
+                <input type="tel" class="form-control" id="p-telefono"
+                       placeholder="Ej: 666111222" />
+                div>
+
+              <div class="mb-3">
+                <label for="p-curso" class="form-label">Curso que imparte</label>
+                <select class="form-select" id="p-curso" required>
+                  <option value="">-- Selecciona un curso --</option>
+                  <option value="1º DAW">1º DAW</option>
+                  <option value="2º DAW">2º DAW</option>
+                  <option value="1º DAM">1º DAM</option>
+                  <option value="2º DAM">2º DAM</option>
+                  <option value="1º ASIR">1º ASIR</option>
+                  <option value="2º ASIR">2º ASIR</option>
+                  <option value="1º SMR">1º SMR</option>
+                  <option value="2º SMR">2º SMR</option>
+                </select>
+               <div class="text-danger" id="miissatgeError"></div> 
+              <div class="d-flex gap-2 flex-wrap">
+                <button type="submit" class="btn btn-primary" id="btn-form-profesor">
+                  Registrar Profesor
+                </button>
+                <button type="reset" class="btn btn-outline-secondary">
+                  Limpiar
+                </button>
+                <button type="button" class="btn btn-outline-danger d-none"
+                        id="btn-cancelar-edicion">
+                  Cancelar
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div><!-- /col formulario -->
+
+
+      <!-- =====================================================
+           COLUMNA DERECHA — LISTADO DE PROFESORES
+      ===================================================== -->
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">📋 Profesores registrados</h5>
+            <span class="badge bg-white text-secondary" id="badge-total">1 profesores</span>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>DNI</th>
+                    <th>Teléfono</th>
+                    <th>Curso</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-profesores">
+
+                  <!-- ================================================
+                       EJEMPLO ESTÁTICO — así debe quedar cada fila
+                       Tu JS debe generar una igual por cada profesor del JSON
+                  ================================================ -->
+                  <tr>
+                    <td>María López Fernández</td>
+                    <td>12345678A</td>
+                    <td>666111222</td>
+                    <td>1º DAW</td>
+                    <td>
+                      <button class="btn btn-warning btn-sm me-2">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <!-- FIN EJEMPLO — elimina esta fila cuando tu JS funcione -->
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div><!-- /col listado -->
+
+    </div><!-- /row -->
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+  <footer class="bg-light border-top text-center text-muted py-3 mt-5">
+    <small>Sistema de Reserva de Salas &copy; 2026 — IES</small>
+  </footer>
+
+</body>
+</html>

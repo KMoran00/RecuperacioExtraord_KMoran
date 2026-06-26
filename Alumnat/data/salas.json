@@ -1,0 +1,51 @@
+{
+  "profesores": [
+    { "id": 1, "nombre": "María López Fernández",  "dni": "12345678A", "telefono": "666111222", "curso": "1º DAW"  },
+    { "id": 2, "nombre": "Carlos Martínez García",  "dni": "87654321B", "telefono": "677333444", "curso": "2º DAM"  },
+    { "id": 3, "nombre": "Ana Rodríguez Pérez",     "dni": "11223344C", "telefono": "688555666", "curso": "1º ASIR" },
+    { "id": 4, "nombre": "Juan Sánchez Torres",     "dni": "55667788D", "telefono": "699777888", "curso": "2º ASIR" }
+  ],
+
+  "salas": [
+    { "id": "A100", "nombre": "Aula A100",          "capacidad": 30,  "tipo": "Informática"   },
+    { "id": "A118", "nombre": "Aula A118",          "capacidad": 28,  "tipo": "Informática"   },
+    { "id": "B201", "nombre": "Aula B201",          "capacidad": 35,  "tipo": "General"        },
+    { "id": "B205", "nombre": "Aula B205",          "capacidad": 20,  "tipo": "Laboratorio"   },
+    { "id": "C301", "nombre": "Sala de Actos C301", "capacidad": 100, "tipo": "Conferencias"  }
+  ],
+
+  "reservas": [
+    {
+      "id": 1,
+      "profesor": { "id": 1, "nombre": "María López Fernández",  "dni": "12345678A", "telefono": "666111222", "curso": "1º DAW"  },
+      "sala": "A100",
+      "fecha": "2026-06-22",
+      "horaInicio": "09:00",
+      "horaFin": "11:00"
+    },
+    {
+      "id": 2,
+      "profesor": { "id": 2, "nombre": "Carlos Martínez García",  "dni": "87654321B", "telefono": "677333444", "curso": "2º DAM"  },
+      "sala": "B201",
+      "fecha": "2026-06-22",
+      "horaInicio": "11:00",
+      "horaFin": "13:00"
+    },
+    {
+      "id": 3,
+      "profesor": { "id": 3, "nombre": "Ana Rodríguez Pérez",     "dni": "11223344C", "telefono": "688555666", "curso": "1º ASIR" },
+      "sala": "A118",
+      "fecha": "2026-06-23",
+      "horaInicio": "09:00",
+      "horaFin": "10:00"
+    },
+    {
+      "id": 4,
+      "profesor": { "id": 4, "nombre": "Juan Sánchez Torres",     "dni": "55667788D", "telefono": "699777888", "curso": "2º ASIR" },
+      "sala": "C301",
+      "fecha": "2026-06-24",
+      "horaInicio": "16:00",
+      "horaFin": "18:00"
+    }
+  ]
+}

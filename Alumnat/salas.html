@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestión de Salas — IES</title>
+  <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script defer src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- =========================================================
+       BARRA DE NAVEGACIÓN
+  ========================================================= -->
+  <nav class="navbar navbar-expand navbar-dark bg-primary">
+    <div class="container">
+      <span class="navbar-brand fw-bold">📅 Reserva de Salas — IES</span>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Reservas</a></li>
+        <li class="nav-item"><a class="nav-link" href="profesores.html">Profesores</a></li>
+        <li class="nav-item"><a class="nav-link active" href="salas.html">Salas</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+       CONTENIDO PRINCIPAL
+  ========================================================= -->
+  <main class="container my-4">
+    <div class="row g-4">
+
+      <!-- =====================================================
+           COLUMNA IZQUIERDA — FORMULARIO ALTA / EDICIÓN
+      ===================================================== -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+
+          <!-- El título y color del header cambian según el modo (JS lo gestiona) -->
+          <div class="card-header bg-primary text-white" id="form-sala-header">
+            <h5 class="mb-0" id="form-sala-titulo">🏫 Alta de Sala</h5>
+          </div>
+
+          <div class="card-body">
+            <div id="alerta-sala"></div>
+
+            <form id="form-sala" novalidate>
+
+              <div class="mb-3">
+                <label for="s-id" class="form-label">ID de sala</label>
+                <input type="text" class="form-control text-uppercase" id="s-id"
+                       placeholder="Ej: A100" />
+                <div class="form-text" id="s-id-ayuda">
+                  Identificador único de la sala (no modificable tras el alta).
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="s-nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="s-nombre"
+                       placeholder="Ej: Aula A100" />
+              
+
+              <div class="mb-3">
+                <label for="s-capacidad" class="form-label">Capacidad (plazas)</label>
+                <input type="number" class="form-control" id="s-capacidad"
+                       min="1" max="500" required />
+              
+              <div class="mb-3">
+                <label for="s-tipo" class="form-label">Tipo</label>
+                <select class="form-select" id="s-tipo" required>
+                  <option value="">-- Selecciona un tipo --</option>
+                  <option value="Informática">Informática</option>
+                  <option value="General">General</option>
+                  <option value="Laboratorio">Laboratorio</option>
+                  <option value="Conferencias">Conferencias</option>
+                  <option value="Taller">Taller</option>
+                </select>
+
+              <div class="d-flex gap-2">
+                <!-- El texto del botón submit cambia según el modo -->
+                <button type="submit" class="btn btn-primary" id="btn-form-sala">
+                  Dar de Alta
+                </button>
+                <button type="reset" class="btn btn-outline-secondary">
+                  Limpiar
+                </button>
+                <!-- Botón cancelar edición (oculto en modo alta) -->
+                <button type="button" class="btn btn-outline-danger d-none"
+                        id="btn-cancelar-edicion">
+                  Cancelar
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div><!-- /col formulario -->
+
+
+      <!-- =====================================================
+           COLUMNA DERECHA — LISTADO DE SALAS
+      ===================================================== -->
+      <div class="col-md-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">📋 Salas registradas</h5>
+            <span class="badge bg-white text-secondary" id="badge-total">1 salas</span>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover table-striped mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Plazas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-salas">
+
+                  <!-- ================================================
+                       EJEMPLO ESTÁTICO — así debe quedar cada fila
+                       Tu JS debe generar una igual por cada sala del JSON
+                  ================================================ -->
+                  <tr>
+                    <td><span class="badge bg-primary">A100</span></td>
+                    <td>Aula A100</td>
+                    <td>Informática</td>
+                    <td>30</td>
+                    <td>
+                      <button class="btn btn-warning btn-sm me-2">Editar</button>
+                      <button class="btn btn-danger btn-sm">Eliminar</button>
+                    </td>
+                  </tr>
+                  <!-- FIN EJEMPLO — elimina esta fila cuando tu JS funcione -->
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div><!-- /col listado -->
+
+    </div><!-- /row -->
+  </main>
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+  <footer class="bg-light border-top text-center text-muted py-3 mt-5">
+    <small>Sistema de Reserva de Salas &copy; 2026 — IES</small>
+  </footer>
+
+</body>
+</html>

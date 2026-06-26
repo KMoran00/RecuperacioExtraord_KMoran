@@ -1,0 +1,245 @@
+/* ============================================================
+   ESTILOS PERSONALIZADOS — Reserva de Salas
+   ============================================================ */
+
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.navbar-brand { letter-spacing: 0.5px; }
+
+/* Pestañas */
+.nav-tabs .nav-link          { color: #495057; font-weight: 500; }
+.nav-tabs .nav-link.active   { font-weight: 700; border-bottom: 3px solid #0d6efd; }
+
+/* Cards genéricas */
+.card        { border-radius: 0.6rem; }
+.card-header { border-radius: 0.6rem 0.6rem 0 0 !important; font-weight: 600; }
+
+/* Tabla */
+thead th { white-space: nowrap; }
+.btn-eliminar { padding: 0.2rem 0.6rem; font-size: 0.8rem; }
+
+/* Lista profesores */
+#lista-profesores .list-group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Mensajes de error custom */
+.error-custom         { color: #dc3545; font-size: .875em; margin-top: .25rem; display: none; }
+.error-custom.visible { display: block; }
+
+footer { font-size: 0.85rem; }
+
+/* ============================================================
+   PASO TÍTULO (indicador de paso numérico)
+   ============================================================ */
+.paso-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 1rem;
+}
+
+/* ============================================================
+   CARDS DE SALA
+   ============================================================ */
+.sala-card {
+  cursor: pointer;
+  border: 2px solid #dee2e6;
+  border-radius: 0.75rem;
+  padding: 1rem 0.9rem;
+  background: #fff;
+  text-align: center;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  position: relative;
+  height: 100%;
+}
+
+.sala-card:hover {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13,110,253,.15);
+}
+
+.sala-card.seleccionada {
+  border-color: #0d6efd;
+  background: #eef3ff;
+}
+
+.sala-check {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  color: #0d6efd;
+  font-size: 1rem;
+  font-weight: 700;
+  display: none;
+}
+.sala-card.seleccionada .sala-check { display: block; }
+
+.sala-id {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0d6efd;
+  line-height: 1.1;
+}
+
+.sala-nombre {
+  font-size: 0.72rem;
+  color: #6c757d;
+  margin-bottom: 0.4rem;
+}
+
+.sala-tipo {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6c757d;
+}
+
+.sala-cap {
+  font-size: 0.78rem;
+  color: #495057;
+  margin-top: 2px;
+}
+
+.sala-card hr { border-color: #e9ecef; }
+
+/* ============================================================
+   CALENDARIO
+   ============================================================ */
+.calendario-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+
+.cal-header-dia {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #6c757d;
+  padding: 4px 0 8px;
+  text-transform: uppercase;
+}
+
+.cal-dia {
+  border: none;
+  background: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  position: relative;
+  padding: 0;
+  line-height: 1;
+}
+
+.cal-dia:not(.deshabilitado):not(.vacio):hover {
+  background: #dce8ff;
+  color: #0d6efd;
+}
+
+.cal-dia.hoy {
+  background: #0d6efd;
+  color: #fff;
+  font-weight: 700;
+}
+.cal-dia.hoy:hover { background: #0b5ed7; color: #fff; }
+
+.cal-dia.deshabilitado {
+  color: #ced4da;
+  cursor: default;
+}
+.cal-dia.vacio { cursor: default; }
+
+/* Punto rojo para días con reservas */
+.cal-punto {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #dc3545;
+  position: absolute;
+  bottom: 1px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.cal-dia.hoy .cal-punto { background: #fff; }
+
+/* Leyenda debajo del calendario */
+.cal-leyenda {
+  display: flex;
+  gap: 1.2rem;
+  font-size: 0.78rem;
+  color: #6c757d;
+  align-items: center;
+}
+
+.cal-dot-leyenda {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+.dot-reserva { background: #dc3545; }
+.dot-hoy     { background: #0d6efd; }
+
+/* ============================================================
+   SLOTS DE HORA (modal)
+   ============================================================ */
+.grid-horas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.slot-hora {
+  border: 2px solid;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.4rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: #fff;
+}
+
+.slot-hora .slot-time   { font-weight: 700; font-size: 0.82rem; }
+.slot-hora .slot-estado { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* Libre */
+.slot-hora.libre {
+  border-color: #198754;
+  color: #198754;
+  background: #f0faf4;
+}
+.slot-hora.libre:hover { background: #d1e7dd; }
+
+/* Seleccionada */
+.slot-hora.seleccionado {
+  border-color: #0d6efd;
+  background: #0d6efd;
+  color: #fff;
+}
+.slot-hora.seleccionado .slot-estado { color: rgba(255,255,255,.8); }
+
+/* Ocupada */
+.slot-hora.ocupado {
+  border-color: #dee2e6;
+  background: #f8f9fa;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
