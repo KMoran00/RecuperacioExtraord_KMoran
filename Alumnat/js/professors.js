@@ -140,7 +140,8 @@ function pintarTabla() {
 */
 // ── AFEGIR ───────────────────────────────────────────────────────────
 function agregar() {
-    let nouId = Date.now();
+    let nouId = datos.length > 0;
+    
     let nou = {
         id: nouId,
         nombre: document.getElementById('p-nombre').value.trim(),
@@ -150,7 +151,7 @@ function agregar() {
 
     };
 
-    datos[PROP_PRINCIPAL].push(nou);
+    datos.push(nou);
     guardarStorage();
 }
 
@@ -174,7 +175,7 @@ function actualizar() {
     let item = datos.find(x => x.id == id);
     if (!item) return;
 
-    item.nombre = document.getElementById('p-nombre').value.trim();
+    item.nombre = document.getElementById('p-nombre');
     item.dni = document.getElementById('p-dni').value;
     item.telefono = document.getElementById('p-telefono').value;
     item.curso = document.getElementById('p-curso').value;
@@ -187,11 +188,11 @@ function actualizar() {
 function borrar(id) {
     if (!confirm('Confirma si vols eliminar')) return;
 
-    let idx = datos[PROP_PRINCIPAL].findIndex(x => x.id == id); // Caso B
+    let idx = datos.findIndex(x => x.id == id); // Caso B
     // let idx = datos.findIndex(x => x.id == id);              // Caso A
     if (idx === -1) return;
 
-    datos[PROP_PRINCIPAL].splice(idx, 1);
+    datos.splice(idx, 1);
     guardarStorage();
     pintarTabla();
 }
@@ -229,4 +230,12 @@ function validarName() {
         return false;
     }
     return true;
+}
+
+function limpiarErrores() {
+    document.getElementById('errorMensaje').textContent = ''; // ← CANVIA el id
+    let form = document.getElementById('form-profesor')
+    for (let i = 0; i < form.elements.length; i++) {
+        form.elements[i].classList.remove('text-danger');
+    }
 }
