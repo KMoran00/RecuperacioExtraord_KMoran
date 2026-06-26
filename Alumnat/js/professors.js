@@ -72,13 +72,13 @@ function pintarTabla() {
 
     while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
 
-    let array = datos[PROP_PRINCIPAL];
+    let array = datos;
 
     if (!array || array.length === 0) {
         let tr = document.createElement('tr');
         let td = document.createElement('td');
         td.setAttribute('colspan', '5');
-        td.textContent = 'No hi ha dades';
+        td.textContent = 'No hi ha professors';
         tr.appendChild(td);
         tbody.appendChild(tr);
         return;
