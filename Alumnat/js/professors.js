@@ -137,7 +137,7 @@ function pintarTabla() {
 // ── AFEGIR ───────────────────────────────────────────────────────────
 function agregar() {
     let nouId = datos.length > 0;
-    
+
     let nou = {
         id: nouId,
         nombre: document.getElementById('p-nombre').value.trim(),
@@ -208,7 +208,7 @@ function validar(e) {
     e.preventDefault(); // SIEMPRE al inicio
 
     // ← CANVIA: llama a las funciones de validación que necesites
-    let ok = validarName();
+    let ok = validarNombre() && validarTelefono() && validarSelectCurs();
 
     if (ok && confirm('Confirma si vols guardar')) {
         document.getElementById('form-profesor').requestSubmit();
@@ -216,7 +216,7 @@ function validar(e) {
 }
 
 // Valida un <input type="text" required minlength="2">
-function validarName() {
+function validarNombre() {
     let el = document.getElementById('p-nombre');
     if (!el.checkValidity()) {
         if (el.validity.valueMissing) mostrarError(el, 'El nom és obligatori');
@@ -227,8 +227,34 @@ function validarName() {
     return true;
 }
 
+function validarTelefono() {
+    let el = document.getElementById('p-telefono');
+    if (!el.checkValidity()) {
+        if (el.validity.valueMissing) mostrarError(el, 'El teléfono és obligatori');
+        if (el.validity.patternMismatch) mostrarError(el, 'Format incorrecte');
+        return false;
+    }
+    return true;
+}
+
+function validarSelectCurs() {
+    let el = document.getElementById('p-curso');
+    if (!el.checkValidity()) {
+        if (el.validity.valueMissing) mostrarError(el, 'Selecciona un curs');
+        return false;
+    }
+    return true;
+}
+
+function mostrarError(element, missatge) {
+    document.getElementById('miissatgeError') 
+        .appendChild(document.createTextNode(missatge));
+    element.classList.add('text-danger');
+    element.focus();
+}
+
 function limpiarErrores() {
-    //document.getElementById('errorMensaje').textContent = ''; // ← CANVIA el id
+    document.getElementById('miissatgeError').textContent = '';
     let form = document.getElementById('form-profesor')
     for (let i = 0; i < form.elements.length; i++) {
         form.elements[i].classList.remove('text-danger');
