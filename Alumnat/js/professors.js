@@ -154,10 +154,24 @@ function agregar() {
     guardarStorage();
 }
 
+function cargarFormulario(id) {
+    let item = datos.find(x => x.id == id);
+    if (!item) return;
+
+    document.getElementById('p-nombre').value = item.nombre;
+    document.getElementById('p-dni').value = item.dni;
+    document.getElementById('p-telefono').value = item.telefono;
+    document.getElementById('p-curso').value = item.curso;
+
+
+    document.getElementById('form-profesor').dataset.editando = id;
+    editando = true;
+}
+
 // ── ACTUALITZAR ───────────────────────────────────────────────────────────
 function actualizar() {
     let id = document.getElementById('form-profesor').dataset.editando;
-    let item = datos[PROP_PRINCIPAL].find(x => x.id == id);
+    let item = datos.find(x => x.id == id);
     if (!item) return;
 
     item.nombre = document.getElementById('p-nombre').value.trim();
