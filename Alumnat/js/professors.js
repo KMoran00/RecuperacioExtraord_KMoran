@@ -89,25 +89,25 @@ function pintarTabla() {
 
         // Celda id
         let tdId = document.createElement('td');
-        tdId.textContent = profesores.id;
+        tdId.textContent = item.id;
         tr.appendChild(tdId);
 
         //muestre el HTML
         let tdNombre = document.createElement('td');
-        tdNombre.textContent = profesores.nombre;
+        tdNombre.textContent = item.nombre;
         tr.appendChild(tdNombre);
 
         let tdDNI = document.createElement('td');
-        tdDNI.textContent = profesores.dni;
+        tdDNI.textContent = item.dni;
         tr.appendChild(tdDNI);
 
 
         let tdTelefono = document.createElement('td');
-        tdTelefono.textContent = profesores.telefono;
+        tdTelefono.textContent = item.telefono;
         tr.appendChild(tdTelefono);
 
         let tdCurso = document.createElement('td');
-        tdCurso.textContent = profesores.curso;
+        tdCurso.textContent = item.curso;
         tr.appendChild(tdCurso);
 
 
@@ -134,6 +134,61 @@ function pintarTabla() {
     });
 }
 
+
+/*
+* CRUD
+*/
+// ── AFEGIR ───────────────────────────────────────────────────────────
+function agregar() {
+    let nouId = Date.now();
+    let nou = {
+        id: nouId,
+        nombre: document.getElementById('p-nombre').value.trim(),
+        dni: document.getElementById('p-dni').value,
+        telefono: document.getElementById('p-telefono').value,
+        curso: document.getElementById('p-curso').value,
+
+    };
+
+    datos[PROP_PRINCIPAL].push(nou);
+    guardarStorage();
+}
+
+// ── ACTUALITZAR ───────────────────────────────────────────────────────────
+function actualizar() {
+    let id = document.getElementById('form-profesor').dataset.editando;
+    let item = datos[PROP_PRINCIPAL].find(x => x.id == id);
+    if (!item) return;
+
+    item.nombre = document.getElementById('p-nombre').value.trim();
+    item.dni = document.getElementById('p-dni').value;
+    item.telefono = document.getElementById('p-telefono').value;
+    item.curso = document.getElementById('p-curso').value;
+
+
+    guardarStorage();
+}
+
+// ── ELIMIANR ───────────────────────────────────────────────────────────
+function borrar(id) {
+    if (!confirm('Confirma si vols eliminar')) return;
+
+    let idx = datos[PROP_PRINCIPAL].findIndex(x => x.id == id); // Caso B
+    // let idx = datos.findIndex(x => x.id == id);              // Caso A
+    if (idx === -1) return;
+
+    datos[PROP_PRINCIPAL].splice(idx, 1);
+    guardarStorage();
+    pintarTabla();
+}
+
+function cancelarEdicion() {
+    editando = false;
+    document.getElementById('form-profesor').reset(); // ← CANVIA el id del formulario
+    limpiarErrores();
+}
+
+
 /*
 * VALIDACIONS
 */
@@ -143,10 +198,10 @@ function validar(e) {
     e.preventDefault(); // SIEMPRE al inicio
 
     // ← CANVIA: llama a las funciones de validación que necesites
-    let ok = validarName() && validarHour() && validarDuration() && validarSelect2();
+    let ok = validarName();
 
     if (ok && confirm('Confirma si vols guardar')) {
-        document.getElementById('miFormulario').requestSubmit(); // SIEMPRE así
+        document.getElementById('form-profesor').requestSubmit();
     }
 }
 
@@ -154,8 +209,8 @@ function validar(e) {
 function validarName() {
     let el = document.getElementById('inputName'); // ← CANVIA el id
     if (!el.checkValidity()) {
-        if (el.validity.valueMissing)    mostrarError(el, 'El nom és obligatori');
-        if (el.validity.tooShort)        mostrarError(el, 'Mínim 2 caràcters');
+        if (el.validity.valueMissing) mostrarError(el, 'El nom és obligatori');
+        if (el.validity.tooShort) mostrarError(el, 'Mínim 2 caràcters');
         if (el.validity.patternMismatch) mostrarError(el, 'Format incorrecte');
         return false;
     }
